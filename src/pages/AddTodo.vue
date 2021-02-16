@@ -8,25 +8,31 @@
 
 <script>
 export default {
-  inject: ["todos", "auth"],
   data() {
     return {
       todo: "",
     };
   },
+  computed: {
+    UserLogged() {
+      return this.$store.getters.isUserLogged;
+    },
+  },
+
   methods: {
     submitForm() {
       if (this.todo?.trim()) {
-        // TODO call add todo action
-        this.todos.push({ id: new Date().toString(), name: this.todo });
+        this.$store.commit("addItem", this.todo);
         this.$router.push({ name: "todos" });
       }
     },
   },
   beforeRouteEnter(to, from, next) {
-    next(
-      (vm) => !vm.auth.isUserLogged && vm.$router.replace({ name: "login" })
-    );
+    console.log(to, from, next);
+    next((vm) => {
+      console.log(vm);
+      !vm.UserLogged && vm.$router.replace({ name: "login" });
+    });
   },
 };
 </script>

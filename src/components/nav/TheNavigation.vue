@@ -11,7 +11,7 @@
             <router-link to="/add-todo">Add todo</router-link>
           </li>
         </ul>
-        <button v-if="auth.isUserLogged" @click="logout">Logout</button>
+        <button v-if="UserLogged" @click="logout">Logout</button>
       </div>
     </nav>
   </header>
@@ -19,11 +19,14 @@
 
 <script>
 export default {
-  inject: ["auth"],
+  computed: {
+    UserLogged() {
+      return this.$store.getters.isUserLogged;
+    },
+  },
   methods: {
     logout() {
-      // TODO dispatch logout action
-      this.auth.isUserLogged = false;
+      this.$store.commit("setLoginStatus", false);
       this.$router.push({ name: "login" });
     },
   },

@@ -10,11 +10,9 @@
 
 <script>
 export default {
-  inject: ["auth"],
   methods: {
     login() {
-      // TODO call login action.
-      this.auth.isUserLogged = true;
+      this.$store.commit("setLoginStatus", true);
       this.$router.replace({ name: "todos" });
     },
   },
